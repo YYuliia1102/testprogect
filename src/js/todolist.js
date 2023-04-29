@@ -1,8 +1,10 @@
 import { refs } from "./refs";
 import storage from "./storage";
-const todo = {}
+let todo = {}
 const LOCALKEY = 'todo'; 
+
 refs.form.addEventListener('input', onSaveTodo)
+refs.form.addEventListener('submit', onSendTodo)
 
 function onSaveTodo ({ target }) {
     const { name, value } = target
@@ -22,3 +24,17 @@ function loadTodo() {
     }
 }
 loadTodo();
+
+function onSendTodo(e) {
+    e.preventDefault();
+    if (!todo.text || !todo.priority) {
+        alert("Заповніть усі поля!");
+        return
+    }
+
+    console.log(todo);
+
+    refs.form.reset();
+    todo = {};
+    storage.remove(LOCALKEY)
+}
